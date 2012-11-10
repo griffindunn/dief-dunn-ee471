@@ -352,7 +352,7 @@ heard
 best
 hour
 better
-true .
+true
 during
 hundred
 five
@@ -940,7 +940,7 @@ evening
 condition
 feed
 tool
-]total
+total
 basic
 smell
 valley
@@ -998,4 +998,3 @@ quotient
 teeth
 shell
 neck
-
