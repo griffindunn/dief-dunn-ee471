@@ -51,68 +51,93 @@ public class DictionaryTree {
 			}
 		}		
 	}
-	
-	public void traverse(char letter){
-		this.currentNode = currentNode.getNode(letter);		
+
+	public void resetToRoot(){
+		this.currentNode = new Node(this.root);
 	}
 	
+	public void traverse(char letter){
+		if (currentNode != null){
+			this.currentNode = currentNode.getNode(letter);
+		}
+	}
+
 	private float[] getProbs() {
 		return currentNode.getProbs();
 	}
-	
+
 	private LetterProbStruct[] getSorted() {		
-		float[] probs = this.getProbs();		
-		LetterProbStruct[] sorted = new LetterProbStruct[currentNode.getN()];
-		
-		for(int i = 0; i < currentNode.getN(); i ++){
-			sorted[i] = new LetterProbStruct((char)(i+65), probs[i]); 
+		if (currentNode != null){
+			float[] probs = this.getProbs();		
+			LetterProbStruct[] sorted = new LetterProbStruct[currentNode.getN()];
+
+			for(int i = 0; i < currentNode.getN(); i ++){
+				sorted[i] = new LetterProbStruct((char)(i+65), probs[i]); 
+			}
+			Arrays.sort(sorted);
+			return sorted;
+		} else {
+			return null;
 		}
-		Arrays.sort(sorted);		
-		return sorted;
+
 	}
-	
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		System.out.println("Begin Program");
+		
 		DictionaryTree tree = new DictionaryTree();
 		LetterProbStruct[] sorted = null;
 		tree.createTree();
+
+		tree.processWord("strings");
+		tree.processWord("apple");
+		tree.processWord("strings");
+		tree.processWord("don't");
 		
-		sorted = tree.getSorted();
-		System.out.print("Getting top 3 most likely letters: ");
-		System.out.println(sorted[0].getLetter() + " " + sorted[1].getLetter() + " " + sorted[2].getLetter());
-		System.out.print("P[" + sorted[0].getLetter() + "]=" + sorted[0].getProb() + "; ");
-		System.out.print("P[" + sorted[1].getLetter() + "]=" + sorted[1].getProb() + "; ");
-		System.out.print("P[" + sorted[2].getLetter() + "]=" + sorted[2].getProb() + ";\n");
-		
-		System.out.println("\nTraversing to: T");
-		tree.traverse('t');
-		sorted = tree.getSorted();
-		System.out.print("Getting next top 3 most likely letters: ");
-		System.out.println(sorted[0].getLetter() + " " + sorted[1].getLetter() + " " + sorted[2].getLetter());
-		System.out.print("P[" + sorted[0].getLetter() + "]=" + sorted[0].getProb() + "; ");
-		System.out.print("P[" + sorted[1].getLetter() + "]=" + sorted[1].getProb() + "; ");
-		System.out.print("P[" + sorted[2].getLetter() + "]=" + sorted[2].getProb() + ";\n");
-		
-		System.out.println("\nTraversing to: H");
-		tree.traverse('h');
-		sorted = tree.getSorted();
-		System.out.print("Getting next top 3 most likely letters: ");
-		System.out.println(sorted[0].getLetter() + " " + sorted[1].getLetter() + " " + sorted[2].getLetter());
-		System.out.print("P[" + sorted[0].getLetter() + "]=" + sorted[0].getProb() + "; ");
-		System.out.print("P[" + sorted[1].getLetter() + "]=" + sorted[1].getProb() + "; ");
-		System.out.print("P[" + sorted[2].getLetter() + "]=" + sorted[2].getProb() + ";\n");
-		
-		System.out.println("\nTraversing to: E");
-		tree.traverse('e');
-		sorted = tree.getSorted();
-		System.out.print("Getting next top 3 most likely letters: ");
-		System.out.println(sorted[0].getLetter() + " " + sorted[1].getLetter() + " " + sorted[2].getLetter());
-		System.out.print("P[" + sorted[0].getLetter() + "]=" + sorted[0].getProb() + "; ");
-		System.out.print("P[" + sorted[1].getLetter() + "]=" + sorted[1].getProb() + "; ");
-		System.out.print("P[" + sorted[2].getLetter() + "]=" + sorted[2].getProb() + ";\n");
 		
 		System.out.println("Done");
+	}
+
+	/**
+	 * @param tree
+	 * @param Word
+	 */
+	public void processWord(String Word) {
+		this.resetToRoot();
+		System.out.println("\n===========================================");
+		System.out.println("Processing Word: " +  Word + "\n");
+		LetterProbStruct[] sorted;
+		sorted = this.getSorted();
+		printData(sorted);		
+		char[] word = Word.toCharArray();
+
+		for (int i = 0; i < word.length; i ++){
+			System.out.println("\nTraversing to :" + word[i]);
+			this.traverse(word[i]);
+			sorted = this.getSorted();
+			printData(sorted);
+		}
+		
+		if (this.currentNode == null){
+			this.addWord(Word);
+		}
+	}
+
+	/**
+	 * @param sorted
+	 */
+	private static void printData(LetterProbStruct[] sorted) {
+		if (sorted != null){
+			System.out.print("Getting next top 3 most likely letters: ");
+			System.out.println(sorted[0].getLetter() + " " + sorted[1].getLetter() + " " + sorted[2].getLetter());
+			System.out.print("P[" + sorted[0].getLetter() + "]=" + sorted[0].getProb() + "; ");
+			System.out.print("P[" + sorted[1].getLetter() + "]=" + sorted[1].getProb() + "; ");
+			System.out.print("P[" + sorted[2].getLetter() + "]=" + sorted[2].getProb() + ";\n");
+		} else {
+			System.out.println("Outside of tree of 1000 most used words");
+		}
 	}
 }
