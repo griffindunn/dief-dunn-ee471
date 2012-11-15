@@ -29,27 +29,35 @@ public class DictionaryTree {
 		root.incCount();
 	}
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		DictionaryTree root = new DictionaryTree();
+	public void createTree(){
 		Scanner scan = null;
 		try {
 			scan = new Scanner(new File("./1-1000.txt"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			System.err.println("Nueman says: You didn't say the magic word");
 			System.exit(1);
 		}
 
 		while(true){
 			try {
-				root.addWord(scan.nextLine());												
+				this.addWord(scan.nextLine());												
 			} catch (NoSuchElementException ex) {
 				break;
 			}
 		}
+	}
+	
+	private float[] getProbs() {
+		return root.getProbs();
+	}
+	
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		DictionaryTree tree = new DictionaryTree(); 
+		tree.createTree();
+		float[] probs = tree.getProbs();
 		//		root.addWord("the");
 		//		root.addWord("these");
 		//		root.addWord("this");
@@ -57,5 +65,4 @@ public class DictionaryTree {
 		//		root.addWord("apple");
 		System.out.println("Done");
 	}
-
 }

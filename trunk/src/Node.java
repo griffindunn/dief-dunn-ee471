@@ -72,8 +72,25 @@ public class Node {
 		this.list[index] = nodeptr;
 	}
 
+	public float[] getProbs(){
+		float probs[] = new float[N];
+		
+		for (int i = 0; i < N; i++){
+			if (list[i] == null){
+				probs[i] =0;
+			} else {
+				probs[i] = (float) list[i].count/ this.count;	
+			}
+		}
+		
+		return probs;
+	}
+	
+	
 	/**
-	 * @param args
+	 * Scratch pad for testing stuff
+	 * 
+	 * @param args unused
 	 */
 	public static void main(String[] args) {
 		//		System.out.println(Character.toUpperCase('A') - 65);
