@@ -27,6 +27,17 @@ public class Node {
 		this.count = 0;
 		list = new Node[N];
 	}
+	
+	/**
+	 * Copy constructor
+	 * 
+	 * @param n
+	 */
+	public Node(Node n){
+		this.letter = n.letter;
+		this.count = n.count;
+		this.list = n.list;
+	}
 
 	/**
 	 * @param letter
@@ -67,6 +78,10 @@ public class Node {
 	public int incCount(){
 		return ++this.count;
 	}
+	
+	public int getN(){
+		return this.N;
+	}
 
 	public void SetNode(int index, Node nodeptr){
 		this.list[index] = nodeptr;
@@ -86,6 +101,10 @@ public class Node {
 		return probs;
 	}
 	
+	public Node getNode(char letter){
+		int index = Character.toUpperCase(letter) - 65;		
+		return this.list[index];
+	}
 	
 	/**
 	 * Scratch pad for testing stuff
