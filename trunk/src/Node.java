@@ -14,7 +14,7 @@
  */
 public class Node {
 	/**
-	 * The number of characters to be stored (A-Z and ')
+	 * The number of characters to be stored (A-Z ' and _)
 	 */
 	private final int N = 28;
 	/**
