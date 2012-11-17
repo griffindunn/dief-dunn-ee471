@@ -181,7 +181,7 @@ public class DictionaryTree {
 	 * @param Word
 	 *            the word to be processed
 	 */
-	private void processWord(String Word) {
+	public void processWord(String Word) {
 		this.resetToRoot();
 		System.out.println("\n===========================================");
 		System.out.println("Processing Word: " + Word + "\n");
