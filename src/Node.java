@@ -92,7 +92,7 @@ public class Node {
 		
 		for (int i = 0; i < N; i++){
 			if (list[i] == null){
-				probs[i] =0;
+				probs[i] = 0;
 			} else {
 				probs[i] = (float) list[i].count/ this.count;	
 			}
@@ -102,7 +102,10 @@ public class Node {
 	}
 	
 	public Node getNode(char letter){
-		int index = Character.toUpperCase(letter) - 65;		
+		int index = Character.toUpperCase(letter) - 65;
+		if (index < 0){
+			index = 26;
+		}
 		return this.list[index];
 	}
 	
