@@ -60,6 +60,7 @@ public class DictionaryTree {
 		for (int i = 0; i < word.length; i++) {
 			Nodeptr = Nodeptr.addLetter(word[i]);
 		}
+		Nodeptr = Nodeptr.addLetter('_');
 		root.incCount();
 		// reset current Node to the root
 		this.currentNode = new Node(this.root);
@@ -133,28 +134,15 @@ public class DictionaryTree {
 			char temp = 0;
 			for (int i = 0; i < currentNode.getN(); i++) {
 				temp = (char) (i + 65);
-				if (temp > 90) {
+				if (temp == 91) {
 					temp = '\'';
+				} else if (temp == 92) {
+					temp = '_';
 				}
 				sorted[i] = new LetterProbStruct(temp, probs[i]);
 			}
 			// sort the Array by probability and resolve draws by letter
 			Arrays.sort(sorted);
-			// remove the 0 probabilities from the array and replace with EOW
-			float totalProb = 1;
-			boolean EOWset = false;
-			for (int i = 0; i < currentNode.getN(); i++) {
-				if (sorted[i].getProb() != 0) {
-					totalProb -= sorted[i].getProb();
-				} else {
-					if (!EOWset) {
-						sorted[i] = new LetterProbStruct('_', totalProb);
-						EOWset = true;
-					} else {
-						sorted[i] = null;
-					}
-				}
-			}
 			return sorted;
 		} else {
 			return null;
@@ -175,11 +163,11 @@ public class DictionaryTree {
 		DictionaryTree tree = new DictionaryTree();
 		// LetterProbStruct[] sorted = null;
 
-		// tree.processWord("strings");
-		tree.processWord("apple");
-		// tree.processWord("string");
-		tree.processWord("don't");
-		tree.processWord("won't");
+		tree.processWord("strings");
+		// tree.processWord("apple");
+		tree.processWord("string");
+		// tree.processWord("don't");
+		// tree.processWord("won't");
 
 		System.out.println("Done");
 	}

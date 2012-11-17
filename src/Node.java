@@ -16,7 +16,7 @@ public class Node {
 	/**
 	 * The number of characters to be stored (A-Z and ')
 	 */
-	private final int N = 27;
+	private final int N = 28;
 	/**
 	 * The letter sorted at this node
 	 */
@@ -76,20 +76,24 @@ public class Node {
 		int index = 0;
 		if (letter == '\'') { // ' is a special case and stored in index 27
 			index = 26;
+		} else if (letter == '_') {
+			index = 27;
 		} else {
 			index = Character.toUpperCase(letter) - 65;
 		}
-		Node Nodeptr = null;
 
 		// why is this a try?
 		// TODO prd005
-		try {
-			Nodeptr = this.list[index];
-		} catch (Exception ex) {
-			System.err.println(letter);
-			ex.printStackTrace();
-			System.exit(1);
-		}
+		// Node Nodeptr = null;
+		// try {
+		// Nodeptr = this.list[index];
+		// } catch (Exception ex) {
+		// System.err.println(letter);
+		// ex.printStackTrace();
+		// System.exit(1);
+		// }
+		Node Nodeptr = this.list[index];
+
 		if (Nodeptr == null) {
 			Nodeptr = new Node(Character.toUpperCase(letter));
 		}
@@ -176,8 +180,10 @@ public class Node {
 	 */
 	public Node getNode(char letter) {
 		int index = Character.toUpperCase(letter) - 65;
-		if (index < 0) {
+		if (letter == '\'') {
 			index = 26;
+		} else if (letter == '_') {
+			index = 27;
 		}
 		return this.list[index];
 	}
