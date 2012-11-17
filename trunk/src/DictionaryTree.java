@@ -255,4 +255,9 @@ public class DictionaryTree {
 		}
 
 	}
+
+	public int getN() {
+		return this.root.getN();
+	}
+
 }
