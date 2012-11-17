@@ -40,6 +40,7 @@ public class GUI extends JFrame {
 	private JTextField txtY;
 	private JTextField txtZ;
 	private JTextField txt_;
+	private JTextField[] probFields;
 
 	/**
 	 * Launch the application.
@@ -60,6 +61,12 @@ public class GUI extends JFrame {
 		System.out.println("Begin Program");
 		// create the tree
 		DictionaryTree tree = new DictionaryTree();
+		LetterProbStruct[] sorted = tree.getSorted();
+
+		for (int i = 0; i < tree.getN(); i++) {
+
+		}
+
 		// A:
 		// load probabilities into the GUI
 		// highlight most likely probabilities
@@ -79,12 +86,15 @@ public class GUI extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setTitle("Probabilistic Typing on Touch Input Devices");
 
 		JTextPane txtpnGriffin = new JTextPane();
 		txtpnGriffin.setFont(new Font("Dialog", Font.PLAIN, 24));
 		txtpnGriffin.setText("Griffin!");
 		txtpnGriffin.setBounds(12, 12, 668, 160);
 		contentPane.add(txtpnGriffin);
+
+		probFields = new JTextField[28];
 
 		txtA = new JTextField();
 		txtA.setHorizontalAlignment(SwingConstants.CENTER);
@@ -94,8 +104,6 @@ public class GUI extends JFrame {
 		txtA.setBounds(12, 184, 44, 19);
 		contentPane.add(txtA);
 		txtA.setColumns(10);
-
-		JTextField[] probFields = new JTextField[28];
 
 		probFields[0] = new JTextField();
 		probFields[0].setHorizontalAlignment(SwingConstants.CENTER);
@@ -305,12 +313,12 @@ public class GUI extends JFrame {
 		probFields[12].setBounds(588, 205, 44, 19);
 		contentPane.add(probFields[12]);
 
-		probFields[13] = new JTextField();
-		probFields[13].setText("0.000");
-		probFields[13].setHorizontalAlignment(SwingConstants.CENTER);
-		probFields[13].setColumns(10);
-		probFields[13].setBounds(636, 205, 44, 19);
-		contentPane.add(probFields[13]);
+		probFields[25] = new JTextField();
+		probFields[25].setText("0.000");
+		probFields[25].setHorizontalAlignment(SwingConstants.CENTER);
+		probFields[25].setColumns(10);
+		probFields[25].setBounds(636, 205, 44, 19);
+		contentPane.add(probFields[25]);
 
 		txtN = new JTextField();
 		txtN.setText("N");
@@ -330,26 +338,26 @@ public class GUI extends JFrame {
 		txtO.setBounds(60, 237, 44, 19);
 		contentPane.add(txtO);
 
+		probFields[13] = new JTextField();
+		probFields[13].setText("0.000");
+		probFields[13].setHorizontalAlignment(SwingConstants.CENTER);
+		probFields[13].setColumns(10);
+		probFields[13].setBounds(12, 258, 44, 19);
+		contentPane.add(probFields[13]);
+
 		probFields[14] = new JTextField();
 		probFields[14].setText("0.000");
 		probFields[14].setHorizontalAlignment(SwingConstants.CENTER);
 		probFields[14].setColumns(10);
-		probFields[14].setBounds(12, 258, 44, 19);
+		probFields[14].setBounds(60, 258, 44, 19);
 		contentPane.add(probFields[14]);
 
 		probFields[15] = new JTextField();
 		probFields[15].setText("0.000");
 		probFields[15].setHorizontalAlignment(SwingConstants.CENTER);
 		probFields[15].setColumns(10);
-		probFields[15].setBounds(60, 258, 44, 19);
+		probFields[15].setBounds(108, 258, 44, 19);
 		contentPane.add(probFields[15]);
-
-		probFields[16] = new JTextField();
-		probFields[16].setText("0.000");
-		probFields[16].setHorizontalAlignment(SwingConstants.CENTER);
-		probFields[16].setColumns(10);
-		probFields[16].setBounds(108, 258, 44, 19);
-		contentPane.add(probFields[16]);
 
 		txtP = new JTextField();
 		txtP.setText("P");
@@ -369,19 +377,19 @@ public class GUI extends JFrame {
 		txtQ.setBounds(156, 237, 44, 19);
 		contentPane.add(txtQ);
 
+		probFields[16] = new JTextField();
+		probFields[16].setText("0.000");
+		probFields[16].setHorizontalAlignment(SwingConstants.CENTER);
+		probFields[16].setColumns(10);
+		probFields[16].setBounds(156, 258, 44, 19);
+		contentPane.add(probFields[16]);
+
 		probFields[17] = new JTextField();
 		probFields[17].setText("0.000");
 		probFields[17].setHorizontalAlignment(SwingConstants.CENTER);
 		probFields[17].setColumns(10);
-		probFields[17].setBounds(156, 258, 44, 19);
+		probFields[17].setBounds(204, 258, 44, 19);
 		contentPane.add(probFields[17]);
-
-		probFields[18] = new JTextField();
-		probFields[18].setText("0.000");
-		probFields[18].setHorizontalAlignment(SwingConstants.CENTER);
-		probFields[18].setColumns(10);
-		probFields[18].setBounds(204, 258, 44, 19);
-		contentPane.add(probFields[18]);
 
 		txtR = new JTextField();
 		txtR.setText("R");
@@ -401,19 +409,19 @@ public class GUI extends JFrame {
 		txtS.setBounds(252, 237, 44, 19);
 		contentPane.add(txtS);
 
+		probFields[18] = new JTextField();
+		probFields[18].setText("0.000");
+		probFields[18].setHorizontalAlignment(SwingConstants.CENTER);
+		probFields[18].setColumns(10);
+		probFields[18].setBounds(252, 258, 44, 19);
+		contentPane.add(probFields[18]);
+
 		probFields[19] = new JTextField();
 		probFields[19].setText("0.000");
 		probFields[19].setHorizontalAlignment(SwingConstants.CENTER);
 		probFields[19].setColumns(10);
-		probFields[19].setBounds(252, 258, 44, 19);
+		probFields[19].setBounds(300, 258, 44, 19);
 		contentPane.add(probFields[19]);
-
-		probFields[20] = new JTextField();
-		probFields[20].setText("0.000");
-		probFields[20].setHorizontalAlignment(SwingConstants.CENTER);
-		probFields[20].setColumns(10);
-		probFields[20].setBounds(300, 258, 44, 19);
-		contentPane.add(probFields[20]);
 
 		txtT = new JTextField();
 		txtT.setText("T");
@@ -433,19 +441,19 @@ public class GUI extends JFrame {
 		txtU.setBounds(348, 237, 44, 19);
 		contentPane.add(txtU);
 
+		probFields[20] = new JTextField();
+		probFields[20].setText("0.000");
+		probFields[20].setHorizontalAlignment(SwingConstants.CENTER);
+		probFields[20].setColumns(10);
+		probFields[20].setBounds(348, 258, 44, 19);
+		contentPane.add(probFields[20]);
+
 		probFields[21] = new JTextField();
 		probFields[21].setText("0.000");
 		probFields[21].setHorizontalAlignment(SwingConstants.CENTER);
 		probFields[21].setColumns(10);
-		probFields[21].setBounds(348, 258, 44, 19);
+		probFields[21].setBounds(396, 258, 44, 19);
 		contentPane.add(probFields[21]);
-
-		probFields[22] = new JTextField();
-		probFields[22].setText("0.000");
-		probFields[22].setHorizontalAlignment(SwingConstants.CENTER);
-		probFields[22].setColumns(10);
-		probFields[22].setBounds(396, 258, 44, 19);
-		contentPane.add(probFields[22]);
 
 		txtV = new JTextField();
 		txtV.setText("V");
@@ -465,12 +473,12 @@ public class GUI extends JFrame {
 		txtW.setBounds(444, 237, 44, 19);
 		contentPane.add(txtW);
 
-		probFields[23] = new JTextField();
-		probFields[23].setText("0.000");
-		probFields[23].setHorizontalAlignment(SwingConstants.CENTER);
-		probFields[23].setColumns(10);
-		probFields[23].setBounds(444, 258, 44, 19);
-		contentPane.add(probFields[23]);
+		probFields[22] = new JTextField();
+		probFields[22].setText("0.000");
+		probFields[22].setHorizontalAlignment(SwingConstants.CENTER);
+		probFields[22].setColumns(10);
+		probFields[22].setBounds(444, 258, 44, 19);
+		contentPane.add(probFields[22]);
 
 		txtX = new JTextField();
 		txtX.setText("X");
@@ -481,19 +489,19 @@ public class GUI extends JFrame {
 		txtX.setBounds(492, 237, 44, 19);
 		contentPane.add(txtX);
 
+		probFields[23] = new JTextField();
+		probFields[23].setText("0.000");
+		probFields[23].setHorizontalAlignment(SwingConstants.CENTER);
+		probFields[23].setColumns(10);
+		probFields[23].setBounds(492, 258, 44, 19);
+		contentPane.add(probFields[23]);
+
 		probFields[24] = new JTextField();
 		probFields[24].setText("0.000");
 		probFields[24].setHorizontalAlignment(SwingConstants.CENTER);
 		probFields[24].setColumns(10);
-		probFields[24].setBounds(492, 258, 44, 19);
+		probFields[24].setBounds(540, 258, 44, 19);
 		contentPane.add(probFields[24]);
-
-		probFields[25] = new JTextField();
-		probFields[25].setText("0.000");
-		probFields[25].setHorizontalAlignment(SwingConstants.CENTER);
-		probFields[25].setColumns(10);
-		probFields[25].setBounds(540, 258, 44, 19);
-		contentPane.add(probFields[25]);
 
 		txtY = new JTextField();
 		txtY.setText("Y");
@@ -513,12 +521,12 @@ public class GUI extends JFrame {
 		txtZ.setBounds(588, 237, 44, 19);
 		contentPane.add(txtZ);
 
-		probFields[26] = new JTextField();
-		probFields[26].setText("0.000");
-		probFields[26].setHorizontalAlignment(SwingConstants.CENTER);
-		probFields[26].setColumns(10);
-		probFields[26].setBounds(588, 258, 44, 19);
-		contentPane.add(probFields[26]);
+		probFields[25] = new JTextField();
+		probFields[25].setText("0.000");
+		probFields[25].setHorizontalAlignment(SwingConstants.CENTER);
+		probFields[25].setColumns(10);
+		probFields[25].setBounds(588, 258, 44, 19);
+		contentPane.add(probFields[25]);
 
 		probFields[27] = new JTextField();
 		probFields[27].setText("0.000");
