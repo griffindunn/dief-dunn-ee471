@@ -19,7 +19,7 @@ public class DictionaryTree {
 	private Node root;
 	private Node currentNode;
 	private File dictionary;
-	
+
 	/**
 	 * 
 	 */
@@ -60,7 +60,7 @@ public class DictionaryTree {
 	public void resetToRoot(){
 		this.currentNode = new Node(this.root);
 	}
-	
+
 	public void traverse(char letter){
 		if (currentNode != null){
 			this.currentNode = currentNode.getNode(letter);
@@ -73,17 +73,35 @@ public class DictionaryTree {
 
 	private LetterProbStruct[] getSorted() {		
 		if (currentNode != null){
+			// get the probabilities sorted by character			
 			float[] probs = this.getProbs();		
+			// place these into an array of structs holding chars and probabilities
 			LetterProbStruct[] sorted = new LetterProbStruct[currentNode.getN()];
 			char temp = 0;
-			for(int i = 0; i < currentNode.getN(); i ++){
+			for(int i = 0; i < currentNode.getN(); i++){
 				temp = (char)(i+65);
 				if (temp > 90) {
 					temp = '\'';
 				}
 				sorted[i] = new LetterProbStruct(temp, probs[i]); 
 			}
+			// sort the Array by probability and resolve draws by letter
 			Arrays.sort(sorted);
+			// remove the 0 probabilities from the array and replace with EOW
+			float totalProb = 1;
+			boolean EOWset = false;
+			for (int i = 0; i < currentNode.getN(); i ++){								
+				if (sorted[i].getProb() != 0){
+					totalProb -= sorted[i].getProb();					
+				} else {					
+					if (!EOWset){
+						sorted[i] = new LetterProbStruct('_', totalProb);
+						EOWset = true;
+					} else {
+						sorted[i] = null;
+					}
+				}
+			}			
 			return sorted;
 		} else {
 			return null;
@@ -96,7 +114,7 @@ public class DictionaryTree {
 	 */
 	public static void main(String[] args) {
 		System.out.println("Begin Program");
-		
+
 		DictionaryTree tree = new DictionaryTree();
 		// LetterProbStruct[] sorted = null;
 		tree.createTree();
@@ -106,8 +124,8 @@ public class DictionaryTree {
 		// tree.processWord("string");
 		tree.processWord("don't");
 		tree.processWord("won't");
-		
-		
+
+
 		System.out.println("Done");
 	}
 
@@ -130,7 +148,7 @@ public class DictionaryTree {
 			sorted = this.getSorted();
 			printData(sorted);
 		}
-		
+
 		if (this.currentNode == null){
 			this.addWord(Word);
 			this.appendToDictionary(Word);
@@ -142,16 +160,26 @@ public class DictionaryTree {
 	 */
 	private static void printData(LetterProbStruct[] sorted) {
 		if (sorted != null){
-			System.out.print("Getting next top 3 most likely letters: ");
-			System.out.println(sorted[0].getLetter() + " " + sorted[1].getLetter() + " " + sorted[2].getLetter());
-			System.out.print("P[" + sorted[0].getLetter() + "]=" + sorted[0].getProb() + "; ");
-			System.out.print("P[" + sorted[1].getLetter() + "]=" + sorted[1].getProb() + "; ");
-			System.out.print("P[" + sorted[2].getLetter() + "]=" + sorted[2].getProb() + ";\n");
+			System.out.print("Getting next top (<=)3 most likely letters: ");
+			for (int i = 0; i < 3; i ++){
+				if (sorted[i] != null && sorted[i].getProb() != 0){
+					System.out.print(" " + sorted[i].getLetter());
+				}
+			}
+			System.out.println();
+
+			for (int i = 0; i < 3; i ++){
+				if (sorted[i] != null && sorted[i].getProb() != 0){
+					System.out.print("P[" + sorted[i].getLetter() + "]=" + sorted[i].getProb() + "; ");
+				}
+			}
+			System.out.println();
+			
 		} else {
 			System.out.println("Outside of tree of 1000 most used words");
 		}
 	}
-	
+
 	private void appendToDictionary(String word){
 		FileWriter fileWritter;
 		try {
@@ -163,6 +191,6 @@ public class DictionaryTree {
 			// shit broke...
 			e.printStackTrace();
 		}
-        
+
 	}
 }
