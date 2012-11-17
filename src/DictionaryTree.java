@@ -112,7 +112,7 @@ public class DictionaryTree {
 	 * 
 	 * @return an array sorted by letter for the probabilities of the leaf nodes
 	 */
-	private float[] getProbs() {
+	public float[] getProbs() {
 		return currentNode.getProbs();
 	}
 

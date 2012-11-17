@@ -51,20 +51,41 @@ public class GUI extends JFrame {
 				try {
 					GUI frame = new GUI();
 					frame.setVisible(true);
+					frame.runProcess();
 				} catch (Exception e) {
 					e.printStackTrace();
 					System.exit(1);
 				}
 			}
 		});
+	}
 
+	public void runProcess() {
 		System.out.println("Begin Program");
 		// create the tree
 		DictionaryTree tree = new DictionaryTree();
-		LetterProbStruct[] sorted = tree.getSorted();
 
+		// display probabilities in the GUI
+		float[] probs = tree.getProbs();
 		for (int i = 0; i < tree.getN(); i++) {
+			probFields[i].setText(String.format("%.3f", probs[i]));
+		}
 
+		LetterProbStruct[] sorted = tree.getSorted();
+		// highlight shit
+		for (int i = 0; i < 3; i++) {
+			if (sorted[i] != null && sorted[i].getProb() != 0) {
+				int index = 0;
+				if (sorted[i].getLetter() == '\'') {
+					index = 26;
+				} else if (sorted[i].getLetter() == '_') {
+					index = 27;
+				} else {
+					index = sorted[i].getLetter() - 65;
+				}
+
+				probFields[index].setBackground(Color.GREEN);
+			}
 		}
 
 		// A:
@@ -313,12 +334,12 @@ public class GUI extends JFrame {
 		probFields[12].setBounds(588, 205, 44, 19);
 		contentPane.add(probFields[12]);
 
-		probFields[25] = new JTextField();
-		probFields[25].setText("0.000");
-		probFields[25].setHorizontalAlignment(SwingConstants.CENTER);
-		probFields[25].setColumns(10);
-		probFields[25].setBounds(636, 205, 44, 19);
-		contentPane.add(probFields[25]);
+		probFields[26] = new JTextField();
+		probFields[26].setText("0.000");
+		probFields[26].setHorizontalAlignment(SwingConstants.CENTER);
+		probFields[26].setColumns(10);
+		probFields[26].setBounds(636, 205, 44, 19);
+		contentPane.add(probFields[26]);
 
 		txtN = new JTextField();
 		txtN.setText("N");
