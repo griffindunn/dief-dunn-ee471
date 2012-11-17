@@ -1,5 +1,8 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -15,12 +18,15 @@ import java.util.Scanner;
 public class DictionaryTree {
 	private Node root;
 	private Node currentNode;
+	private File dictionary;
+	
 	/**
 	 * 
 	 */
 	public DictionaryTree() {
 		this.root = new Node();
 		this.currentNode = new Node();
+		this.dictionary = new File("./1-1000.txt");
 	}
 
 	public void addWord(String Word){
@@ -30,14 +36,13 @@ public class DictionaryTree {
 			Nodeptr = Nodeptr.addLetter(word[i]);
 		}
 		root.incCount();
-		// keep root and currentNode the same
 		this.currentNode = new Node(this.root);
 	}
 
 	public void createTree(){
 		Scanner scan = null;
 		try {
-			scan = new Scanner(new File("./1-1000.txt"));
+			scan = new Scanner(this.dictionary);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -70,9 +75,13 @@ public class DictionaryTree {
 		if (currentNode != null){
 			float[] probs = this.getProbs();		
 			LetterProbStruct[] sorted = new LetterProbStruct[currentNode.getN()];
-
+			char temp = 0;
 			for(int i = 0; i < currentNode.getN(); i ++){
-				sorted[i] = new LetterProbStruct((char)(i+65), probs[i]); 
+				temp = (char)(i+65);
+				if (temp > 90) {
+					temp = '\'';
+				}
+				sorted[i] = new LetterProbStruct(temp, probs[i]); 
 			}
 			Arrays.sort(sorted);
 			return sorted;
@@ -89,13 +98,14 @@ public class DictionaryTree {
 		System.out.println("Begin Program");
 		
 		DictionaryTree tree = new DictionaryTree();
-		LetterProbStruct[] sorted = null;
+		// LetterProbStruct[] sorted = null;
 		tree.createTree();
 
-		tree.processWord("strings");
+		// tree.processWord("strings");
 		tree.processWord("apple");
-		tree.processWord("strings");
+		// tree.processWord("string");
 		tree.processWord("don't");
+		tree.processWord("won't");
 		
 		
 		System.out.println("Done");
@@ -123,6 +133,7 @@ public class DictionaryTree {
 		
 		if (this.currentNode == null){
 			this.addWord(Word);
+			this.appendToDictionary(Word);
 		}
 	}
 
@@ -139,5 +150,19 @@ public class DictionaryTree {
 		} else {
 			System.out.println("Outside of tree of 1000 most used words");
 		}
+	}
+	
+	private void appendToDictionary(String word){
+		FileWriter fileWritter;
+		try {
+			fileWritter = new FileWriter(this.dictionary.getName(),true);
+			BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
+			bufferWritter.write("\n" + word);
+			bufferWritter.close();
+		} catch (IOException e) {
+			// shit broke...
+			e.printStackTrace();
+		}
+        
 	}
 }
