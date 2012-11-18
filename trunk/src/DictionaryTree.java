@@ -259,6 +259,11 @@ public class DictionaryTree {
 
 	}
 
+	/**
+	 * Returns the number subsequent letters in a node
+	 * 
+	 * @return the number of leaves per node
+	 */
 	public int getN() {
 		return this.root.getN();
 	}
