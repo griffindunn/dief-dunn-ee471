@@ -11,6 +11,7 @@ import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+@SuppressWarnings("serial")
 public class GUI extends JFrame {
 
 	private JPanel contentPane;
@@ -45,6 +46,7 @@ public class GUI extends JFrame {
 	private JTextField[] probFields;
 	private DictionaryTree tree;
 	private String saved = "";
+	private boolean newWord = false;
 
 	/**
 	 * Launch the application.
@@ -79,6 +81,8 @@ public class GUI extends JFrame {
 		// System.out.println("key pressed");
 		if (letter != '?') {
 			tree.traverse(letter);
+		} else {
+
 		}
 		for (int i = 0; i < 28; i++) {
 			probFields[i].setBackground(new Color(238, 238, 238));
@@ -105,6 +109,9 @@ public class GUI extends JFrame {
 					probFields[index].setBackground(Color.GREEN);
 				}
 			}
+			newWord = false;
+		} else {
+			newWord = true;
 		}
 	}
 
@@ -131,10 +138,13 @@ public class GUI extends JFrame {
 					updatefields(e.getKeyChar());
 					saved += letter;
 				} else if (e.getKeyChar() == ' ') {
+					if (newWord) {
+						System.out.println(saved); // TODO prd
+						tree.appendToDictionary(saved);
+						newWord = false;
+					}
 					tree.resetToRoot();
 					updatefields('?');
-					System.out.println(saved); // TODO prd
-					tree.appendToDictionary(saved);
 					saved = "";
 				}
 			}
