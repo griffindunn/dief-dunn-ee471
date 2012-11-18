@@ -998,4 +998,3 @@ quotient
 teeth
 shell
 neck
-strings

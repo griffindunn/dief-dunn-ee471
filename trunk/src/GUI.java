@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -41,6 +43,8 @@ public class GUI extends JFrame {
 	private JTextField txtZ;
 	private JTextField txt_;
 	private JTextField[] probFields;
+	private DictionaryTree tree;
+	private String saved = "";
 
 	/**
 	 * Launch the application.
@@ -63,38 +67,45 @@ public class GUI extends JFrame {
 	public void runProcess() {
 		System.out.println("Begin Program");
 		// create the tree
-		DictionaryTree tree = new DictionaryTree();
-
-		// display probabilities in the GUI
-		float[] probs = tree.getProbs();
-		for (int i = 0; i < tree.getN(); i++) {
-			probFields[i].setText(String.format("%.3f", probs[i]));
-		}
-
-		LetterProbStruct[] sorted = tree.getSorted();
-		// highlight shit
-		for (int i = 0; i < 3; i++) {
-			if (sorted[i] != null && sorted[i].getProb() != 0) {
-				int index = 0;
-				if (sorted[i].getLetter() == '\'') {
-					index = 26;
-				} else if (sorted[i].getLetter() == '_') {
-					index = 27;
-				} else {
-					index = sorted[i].getLetter() - 65;
-				}
-
-				probFields[index].setBackground(Color.GREEN);
-			}
-		}
-
-		// A:
-		// load probabilities into the GUI
-		// highlight most likely probabilities
-		// wait for input from text field
-		// goto A
+		this.tree = new DictionaryTree();
+		this.updatefields('?');
+		// TODO update the fields each time the user types a new key
+		// then later update the dictionary with new words
 
 		System.out.println("Done");
+	}
+
+	private void updatefields(char letter) {
+		// System.out.println("key pressed");
+		if (letter != '?') {
+			tree.traverse(letter);
+		}
+		for (int i = 0; i < 28; i++) {
+			probFields[i].setBackground(new Color(238, 238, 238));
+		}
+		// display probabilities in the GUI
+		float[] probs = tree.getProbs();
+		if (probs != null) {
+			for (int i = 0; i < tree.getN(); i++) {
+				probFields[i].setText(String.format("%.3f", probs[i]));
+			}
+
+			// highlight the top 3 most probable letters
+			LetterProbStruct[] sorted = tree.getSorted();
+			for (int i = 0; i < 3; i++) {
+				if (sorted[i] != null && sorted[i].getProb() != 0) {
+					int index = 0;
+					if (sorted[i].getLetter() == '\'') {
+						index = 26;
+					} else if (sorted[i].getLetter() == '_') {
+						index = 27;
+					} else {
+						index = sorted[i].getLetter() - 65;
+					}
+					probFields[index].setBackground(Color.GREEN);
+				}
+			}
+		}
 	}
 
 	/**
@@ -110,8 +121,27 @@ public class GUI extends JFrame {
 		setTitle("Probabilistic Typing on Touch Input Devices");
 
 		JTextPane txtpnGriffin = new JTextPane();
+		txtpnGriffin.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char letter = Character.toUpperCase(e.getKeyChar());
+				if (((64 < letter) && (letter < 91)) || letter == '\''
+						|| letter == '_') {
+					updatefields(e.getKeyChar());
+					saved += letter;
+				} else if (e.getKeyChar() == ' ') {
+					tree.resetToRoot();
+					updatefields('?');
+					System.out.println(saved); // TODO prd
+					tree.appendToDictionary(saved);
+					saved = "";
+				}
+			}
+		});
+
 		txtpnGriffin.setFont(new Font("Dialog", Font.PLAIN, 24));
-		txtpnGriffin.setText("Griffin!");
+		txtpnGriffin.setText("");
 		txtpnGriffin.setBounds(12, 12, 668, 160);
 		contentPane.add(txtpnGriffin);
 
@@ -564,5 +594,9 @@ public class GUI extends JFrame {
 		txt_.setBackground(Color.WHITE);
 		txt_.setBounds(636, 237, 44, 19);
 		contentPane.add(txt_);
+
+		for (int i = 0; i < 28; i++) {
+			probFields[i].setEditable(false);
+		}
 	}
 }

@@ -113,7 +113,10 @@ public class DictionaryTree {
 	 * @return an array sorted by letter for the probabilities of the leaf nodes
 	 */
 	public float[] getProbs() {
-		return currentNode.getProbs();
+		if (currentNode != null) {
+			return currentNode.getProbs();
+		}
+		return null;
 	}
 
 	/**
@@ -242,7 +245,7 @@ public class DictionaryTree {
 	 *            Adds a word to the dictionary file to be stored in the file
 	 *            for future runs
 	 */
-	private void appendToDictionary(String word) {
+	public void appendToDictionary(String word) {
 		FileWriter fileWritter;
 		try {
 			fileWritter = new FileWriter(this.dictionary.getName(), true);
