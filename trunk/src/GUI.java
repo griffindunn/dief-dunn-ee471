@@ -11,6 +11,11 @@ import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * Bucknell University ELEC 471 Philip Diefenderfer and Griffin Dunn
+ * Probabilistic Typing on Touch Input Devices
+ */
+
 @SuppressWarnings("serial")
 public class GUI extends JFrame {
 
@@ -64,6 +69,8 @@ public class GUI extends JFrame {
 				}
 			}
 		});
+		while (true)
+			;
 	}
 
 	public void runProcess() {
