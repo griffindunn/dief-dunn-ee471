@@ -1,0 +1,1 @@
+A Brilliant Probability Project for dynamic typing anticipation of future letters.
